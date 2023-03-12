@@ -145,3 +145,6 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+
+# .DS_Store
+.DS_Store
