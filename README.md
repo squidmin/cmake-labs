@@ -130,6 +130,10 @@ cd build
 make ExternalLibraries_Executable
 ```
 
+#### Note
+
+When building a target, all dependencies of the target are also built.
+
 ### Run the Executable
 
 After generating the project and building a specific target you might want to run the executable.
