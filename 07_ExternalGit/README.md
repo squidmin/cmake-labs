@@ -193,3 +193,13 @@ If a dependency you are adding is not a CMake project, you'll have to configure 
 git rm -r --cached 07_ExternalGit/external/json
 rm '07_ExternalGit/external/json'
 ```
+
+
+---
+
+
+## De-init a submodule
+
+```bash
+git submodule deinit -f 07_ExternalGit/external/json
+```
