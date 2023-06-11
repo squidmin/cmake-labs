@@ -71,7 +71,7 @@ This will create a `.vscode` directory in the project containing the C++ config 
 ### Generating a project
 
 <details>
-<summary>Expand</summary>
+<summary>General format</summary>
 
 ```bash
 cmake [<options>] -S <path-to-source> -B <path-to-build>

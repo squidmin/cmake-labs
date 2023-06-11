@@ -46,6 +46,8 @@ mkdir configured
 
 ### Create a `config.hpp.in` file
 
+Create a file with the below contents and store it in the root level of the project.
+
 ```cpp
 #pragma once
 
@@ -160,20 +162,20 @@ target_include_directories(
 
 ## Create and configure application source code
 
-### Create a subdirectory to store the application source code (`app/`)
+### Create a subdirectory to store the application source code (`/app`)
 
 ```shell
 mkdir app
 ```
 
-### Create a main application sources (`app/main.cc`) file
+### Create a main application sources (`/app/main.cc`) file
 
 ```shell
 cd app
 touch main.cc
 ```
 
-#### `app/main.cc`
+#### `/app/main.cc`
 
 ```cpp
 #include <iostream>
@@ -192,14 +194,14 @@ int main()
 }
 ```
 
-### Create the `CMakeLists.txt` file in the application sources (`app/`) directory
+### Create the `CMakeLists.txt` file in the application sources (`/app`) directory
 
 ```shell
 cd app
 touch CMakeLists.txt
 ```
 
-#### `app/CMakeLists.txt`
+#### `/app/CMakeLists.txt`
 
 ```cmake
 add_executable(${EXECUTABLE_NAME} main.cc)

@@ -2,20 +2,22 @@
 
 ## External submodule subdirectory
 
-Create the subdirectory to store the external dependencies.
+The project should be initialized as a Git repository.
 
-All external dependencies added to the project should be stored in the `external` directory.
+Create the subdirectory to store the external dependencies (e.g., `external`).
 
-Use the dependency's GitHub repo URL with the `git submodule add` command.
+This project will have a directory called `external` at its root level to store all external dependencies.
+
+To install an external dependency, pass its GitHub repo URL to the `git submodule add` command.
 
 ```shell
-git submodule add https://example.com/author/repo-name.git external/repo-name
+git submodule add https://github.com/author/repo-name.git external/repo-name
 ```
 
 e.g.,
 
 ```shell
-git submodule add https://github.com/nlohmann/json.git external/json
+git submodule add https://github.com/nlohmann/json.git 07_ExternalGit/external/json
 ```
 
 The repository will be cloned into the path specified in the `git submodule add` command.
@@ -28,7 +30,7 @@ Git will create a file called `.gitmodules` in the `external` directory, which l
 
 ## The `cmake` directory
 
-From the root directory of the project, create another directory called `cmake`.
+In the root directory of the project, create another directory called `cmake`.
 
 In a typical CMake project, this directory stores module (`.cmake`) files.
 
@@ -39,20 +41,25 @@ In the `cmake` directory, add a file called `AddGitSubmodule.cmake`:
 ### `AddGitSubmodule.cmake`
 
 ```cmake
-function(add_git_submodule dir)  # dir denotes the relative path at the external directory level of the project.
-    # Find the Git installation on the system (it must be ensured that Git is found on the system).
-    find_package(Git REQUIRED)
+function(add_git_submodule dir)
+    find_package(Git REQUIRED)  # Find 'Git' installation on the computer. It must be ensured that 'Git' is found on your system.
 
-    # If there is no CMakeLists.txt file located in the external directory that we have added...
-    if (NOT EXISTS ${dir}/CMakeLists.txt)
-        # Updates external dependencies.
-        execute_process(COMMAND ${GIT_EXECUTABLE}  # GIT_EXECUTABLE is set by the find_package() function. It stores the absolute path to the Git executable found on the system.
-            submodule update --init --recursive -- ${dir}
+    if (NOT EXISTS ${CMAKE_SOURCE_DIR}/${dir}/CMakeLists.txt)  # If there is no CMakeLists.txt file in this external directory that we have added.
+        execute_process(COMMAND ${GIT_EXECUTABLE}  # GIT_EXECUTABLE is set by the find_package() function.
+            submodule update --init --recursive -- ${CMAKE_SOURCE_DIR}/${dir}
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
     endif()
 
-    add_subdirectory(${dir})  # Add the directories of the external dependencies.
+    if (EXISTS ${CMAKE_SOURCE_DIR}/${dir}/CMakeLists.txt)
+        message("Adding: ${dir}/CMakeLists.txt")
+        add_subdirectory(${CMAKE_SOURCE_DIR}/${dir})
+    else()
+        message("Could not add: ${dir}/CMakeLists.txt")
+    endif()
+
+    add_subdirectory(${CMAKE_SOURCE_DIR}/${dir})
 endfunction(add_git_submodule)
+
 ```
 
 - `dir` denotes the relative path at the external directory level of the project.
@@ -69,7 +76,7 @@ In the main `CMakeLists.txt` file, after the setters, add the following lines:
 
 ```cmake
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/") # Stores the absolute path to where the .cmake module files are located.
-include(AddGitSubmodule)  # Includes CMake module files (not CMakeLists.txt). Adds the AddGitSubmodule function in this case.
+include(AddGitSubmodule)  # Includes CMake module files (not CMakeLists.txt). Adds the AddGitSubmodule function, in this case.
 
 add_git_submodule(external/json)
 
@@ -157,4 +164,32 @@ int main()
 
     return 0;
 }
+```
+
+
+---
+
+
+## Add a `CMakeLists.txt` file to the `/external` directory
+
+The `/external/CMakeLists.txt` file will be used in a later module of this tutorial.
+
+
+---
+
+
+## Add a dependency that is not a CMake project
+
+If a dependency you are adding is not a CMake project, you'll have to configure the dependency in CMake yourself.
+
+
+---
+
+
+## Remove a Git submodule
+
+
+```bash
+git rm -r --cached 07_ExternalGit/external/json
+rm '07_ExternalGit/external/json'
 ```

@@ -1,3 +1,9 @@
 [submodule "07_ExternalGit/external/external/json"]
 	path = 07_ExternalGit/external/external/json
 	url = https://github.com/nlohmann/json.git
+[submodule "external/json"]
+	path = external/json
+	url = https://github.com/nlohmann/json.git
+[submodule "07_ExternalGit/external/json"]
+	path = 07_ExternalGit/external/json
+	url = https://github.com/nlohmann/json.git
