@@ -4,7 +4,7 @@
 
 This document contains a quickstart guide for setting up a modern CMake application.
 
-Each step contains an code snippet for getting started.
+Each step contains a code snippet for getting started.
 
 ---
 
